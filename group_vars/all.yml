@@ -1,2 +1,3 @@
 ---
 ansible_python_interpreter: /usr/bin/python3
+pixel_labs_ip: "{{ lookup('env', 'PIXEL_LABS_IP') }}"

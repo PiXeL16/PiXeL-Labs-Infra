@@ -21,7 +21,7 @@ run-playbook:
 # Target to run the playbook for staging environment only
 .PHONY: pixel_labs
 pixel_labs:
-	$(ANSIBLE_PLAYBOOK) $(PLAYBOOK) --limit staging
+	$(ANSIBLE_PLAYBOOK) $(PLAYBOOK) --limit pixel_labs
 
 # Target to run the playbook with verbose output
 .PHONY: run-playbook-verbose
@@ -44,8 +44,7 @@ help:
 	@echo "Available targets:"
 	@echo "  install-deps         : Install Ansible and Ansible Lint"
 	@echo "  run-playbook         : Run the Ansible site playbook for all hosts"
-	@echo "  staging              : Run the playbook for staging environment only"
-	@echo "  production           : Run the playbook for production environment only"
+	@echo "  pixel_labs           : Run the playbook for pixel_labs environment only"
 	@echo "  run-playbook-verbose : Run the playbook with verbose output"
 	@echo "  syntax-check         : Check the playbook syntax"
 	@echo "  lint                 : Run ansible-lint on the playbook"
