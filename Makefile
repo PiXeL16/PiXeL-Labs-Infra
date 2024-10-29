@@ -12,6 +12,7 @@ all: run-playbook
 .PHONY: install-deps
 install-deps:
 	pip install ansible ansible-lint
+	ansible-galaxy install -r requirements.yml
 
 # Target to run the Ansible playbook for all hosts
 .PHONY: run-playbook

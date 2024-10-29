@@ -1,34 +1,6 @@
----
-- name: Add Docker GPG key
-  ansible.builtin.apt_key:
-    url: https://download.docker.com/linux/ubuntu/gpg
-    state: present
-
-- name: Add Docker repository
-  ansible.builtin.apt_repository:
-    repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
-    state: present
-
-- name: Update apt cache
-  ansible.builtin.apt:
-    update_cache: true
-
-- name: Install Docker and related packages
-  ansible.builtin.apt:
-    name:
-      - docker-ce
-      - docker-ce-cli
-      - containerd.io
-      - docker-buildx-plugin
-      - docker-compose-plugin
-    state: present
-
-- name: Ensure Docker service is started and enabled
-  ansible.builtin.systemd:
-    name: docker
-    state: started
-    enabled: true
-
+# Now install Dokploy
 - name: Install Dokploy
   ansible.builtin.shell:
     cmd: curl -sSL https://dokploy.com/install.sh | sh
+  register: dokploy_install
+  failed_when: false  # We'll handle the error in the next task

@@ -1,4 +1,16 @@
 ---
+# Clean up any problematic repository configurations first
+- name: Remove problematic repository configurations
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - /etc/apt/sources.list.d/docker.list
+    - /etc/apt/sources.list.d/download_docker_com_linux_ubuntu.list
+    - /etc/apt/keyrings/docker.gpg
+    - /etc/apt/keyrings/docker.asc
+    - /usr/share/keyrings/docker-archive-keyring.gpg
+
 - name: Update apt cache
   ansible.builtin.apt:
     update_cache: true

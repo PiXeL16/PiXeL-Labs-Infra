@@ -3,4 +3,5 @@
     - common
 - hosts: pixel_labs
   roles:
+    - geerlingguy.docker
     - dockploy

@@ -1,2 +1,2 @@
-[pixel_labs]
-pixel_labs ansible_host={{ pixel_labs_ip }}
+[pixellabs]
+pixel_labs ansible_host="{{ pixel_labs_ip }}" 
