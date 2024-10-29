@@ -1,0 +1,98 @@
+---
+- name: Update apt cache
+  ansible.builtin.apt:
+    update_cache: true
+
+- name: Upgrade all packages
+  ansible.builtin.apt:
+    upgrade: full
+
+- name: Install common packages
+  ansible.builtin.apt:
+    name:
+      - ufw
+      - fail2ban
+      - unattended-upgrades
+      - vim
+      - htop
+      - git
+      - make
+      - curl
+      - software-properties-common
+      - man-db
+      - help2man
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg-agent
+      - software-properties-common
+    state: present
+    update_cache: true
+  become: true
+
+- name: Enable UFW
+  ufw:
+    state: enabled
+    policy: deny
+
+- name: Allow SSH through UFW
+  ufw:
+    rule: allow
+    port: '22'
+
+- name: Allow HTTP through UFW
+  ufw:
+    rule: allow
+    port: '80'
+
+- name: Allow HTTP through UFW
+  ufw:
+    rule: allow
+    port: '3000'
+
+- name: Allow HTTPS through UFW
+  ufw:
+    rule: allow
+    port: '443'
+
+- name: Enable automatic security updates
+  copy:
+    content: |
+      APT::Periodic::Update-Package-Lists "1";
+      APT::Periodic::Unattended-Upgrade "1";
+    dest: /etc/apt/apt.conf.d/20auto-upgrades
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Set timezone
+  timezone:
+    name: UTC
+
+- name: Ensure chrony is installed (Ubuntu's preferred NTP service)
+  apt:
+    name: chrony
+    state: present
+
+- name: Ensure chrony is running and enabled
+  service:
+    name: chrony
+    state: started
+    enabled: yes
+
+- name: Set up logrotate for system logs
+  copy:
+    content: |
+      /var/log/*.log {
+        weekly
+        missingok
+        rotate 4
+        compress
+        delaycompress
+        notifempty
+        create 0640 syslog adm
+      }
+    dest: /etc/logrotate.d/system-logs
+    owner: root
+    group: root
+    mode: '0644'
